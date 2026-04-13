@@ -1,9 +1,27 @@
 <?php
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: http://localhost:3000');
+// Detecta a origem da requisição
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+// Lista de URLs permitidas (Seu localhost e seu futuro link do Render)
+$allowed_origins = [
+    'http://localhost:3000',
+    'https://seu-front-zetta.onrender.com' // Substitua pela sua URL real do Render quando tiver
+];
+
+if (in_array($origin, $allowed_origins)) {
+    header("Access-Control-Allow-Origin: $origin");
+}
+
+header('Access-Control-Allow-Credentials: true'); // OBRIGATÓRIO para cookies
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Content-Type: application/json');
+
+// Responde imediatamente a requisições OPTIONS (Preflight)
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 // Database configuration
 $database_url = getenv('DATABASE_URL') ?: 'postgresql://zetta_user:Duh1u4SENDM9BzdHUX6KAiHgQfWf8jvE@dpg-d7d7g87aqgkc73b65r80-a.oregon-postgres.render.com/zetta';
@@ -78,12 +96,6 @@ $path = parse_url($request_uri, PHP_URL_PATH);
 
 // Remove base path if needed, assuming api.php is in root
 $path = str_replace('/api.php', '', $path);
-
-// Handle OPTIONS requests for CORS preflight
-if ($method === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
 
 switch ($path) {
     case '/auth/login':
