@@ -94,9 +94,6 @@ $request_uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($request_uri, PHP_URL_PATH);
 
-// Remove base path if needed, assuming api.php is in root
-$path = str_replace('/api.php', '', $path);
-
 switch ($path) {
     case '/auth/login':
         if ($method === 'POST') {
