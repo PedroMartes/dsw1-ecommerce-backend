@@ -94,7 +94,18 @@ $request_uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($request_uri, PHP_URL_PATH);
 
+// Remove o "index.php" ou "api.php" caso eles apareçam na URL para evitar erro 404
+$path = str_replace(['/index.php', '/api.php'], '', $path);
+
+// Se o path ficar vazio, define como raiz
+if (empty($path)) {
+    $path = '/';
+}
+
 switch ($path) {
+    case '/':
+        echo json_encode(['status' => 'API Zetta Online', 'db' => 'PostgreSQL Conectado']);
+        break;
     case '/auth/login':
         if ($method === 'POST') {
             handleLogin();
