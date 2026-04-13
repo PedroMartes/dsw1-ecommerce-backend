@@ -78,6 +78,12 @@ $path = parse_url($request_uri, PHP_URL_PATH);
 // Remove base path if needed, assuming api.php is in root
 $path = str_replace('/api.php', '', $path);
 
+// Handle OPTIONS requests for CORS preflight
+if ($method === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 switch ($path) {
     case '/auth/login':
         if ($method === 'POST') {
