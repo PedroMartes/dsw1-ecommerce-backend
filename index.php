@@ -125,6 +125,11 @@ switch ($path) {
             handleUpdateProfile();
         }
         break;
+    case '/':
+        if ($method === 'GET') {
+            echo json_encode(['message' => 'API is running']);
+        }
+        break;
     default:
         http_response_code(404);
         echo json_encode(['error' => 'Endpoint not found']);
