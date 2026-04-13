@@ -1,8 +1,9 @@
 <?php
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH');
+header('Access-Control-Allow-Origin: http://localhost:3000');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Credentials: true');
 
 // Database configuration
 $database_url = getenv('DATABASE_URL') ?: 'postgresql://zetta_user:Duh1u4SENDM9BzdHUX6KAiHgQfWf8jvE@dpg-d7d7g87aqgkc73b65r80-a.oregon-postgres.render.com/zetta';
